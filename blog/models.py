@@ -4,12 +4,16 @@ from django.contrib.auth.models import User
 STATUS = ((0, "Draft"), (1, "Published"))
 
 # Create your models here.
+
+
 class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
     author = models.ForeignKey(
-    User, on_delete=models.CASCADE, related_name="blog_posts"
-)
+        User,
+        on_delete=models.CASCADE,
+        related_name="blog_posts"
+    )
     # This is the author of the blog article.
     # The cascade on delete means that on the deletion of the user entry
     # all their posts are also deleted.
@@ -19,3 +23,20 @@ class Post(models.Model):
     status = models.IntegerField(choices=STATUS, default=0)
     excerpt = models.TextField(blank=True)
     updated_on = models.DateTimeField(auto_now=True)
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+        related_name="comments"
+    )
+    # This is the blog article that the comment is associated with.
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="commentor"
+    )
+    body = models.TextField()
+    approved = models.BooleanField(default=False)
+    created_on = models.DateTimeField(auto_now_add=True)
