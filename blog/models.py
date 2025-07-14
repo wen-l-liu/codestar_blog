@@ -24,6 +24,13 @@ class Post(models.Model):
     excerpt = models.TextField(blank=True)
     updated_on = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ["-created_on"]
+        # This means that the most recent posts are shown first.
+
+    def __str__(self):
+        return f"{self.title} | written by {self.author}"
+
 
 class Comment(models.Model):
     post = models.ForeignKey(
@@ -40,3 +47,10 @@ class Comment(models.Model):
     body = models.TextField()
     approved = models.BooleanField(default=False)
     created_on = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ["created_on"]
+        # This means that the most recent comments are shown first.
+
+    def __str__(self):
+        return f"Comment {self.body} by {self.author}"
