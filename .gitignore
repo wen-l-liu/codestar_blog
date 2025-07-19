@@ -2,3 +2,5 @@
 env.py
 *.pyc
 __pycache__/
+.github/
+blog/fixtures/
