@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from cloudinary.models import CloudinaryField
 
 STATUS = ((0, "Draft"), (1, "Published"))
 
@@ -17,6 +18,7 @@ class Post(models.Model):
     # This is the author of the blog article.
     # The cascade on delete means that on the deletion of the user entry
     # all their posts are also deleted.
+    featured_image = CloudinaryField('image', default='placeholder')
     content = models.TextField()
     # This is the blog article content.
     created_on = models.DateTimeField(auto_now_add=True)
